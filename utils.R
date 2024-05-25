@@ -39,7 +39,7 @@ smooth_lim <- function(FEMObject, ...){
 
 # ---
 plot_colorbar <- function(FEMObject, coeff_lims= NULL, 
-                          colorscale = NULL, ncolor = 128, 
+                          colorscale = jet.col, ncolor = 128, 
                           cex.axis = 2, file = "colorbar"){
   coeff <- extract_coeff(FEMObject)
   if(is.null(coeff_lims)) coeff_lims = c(min(coeff, na.rm = T), max(coeff, na.rm = T))

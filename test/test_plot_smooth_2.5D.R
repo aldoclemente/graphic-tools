@@ -2,6 +2,9 @@
 source("utils.R")
 source("plot_smooth_2.5D.R")
 
+foldername = "imgs/"
+if(!dir.exists(foldername)) dir.create(foldername)
+
 data("horseshoe2.5D")
 mesh=horseshoe2.5D
 FEMbasis <- create.FEM.basis(mesh)

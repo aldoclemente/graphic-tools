@@ -1,5 +1,9 @@
 # plot_smooth_2D
 source("plot_smooth_2D.R")
+
+foldername = "imgs/"
+if(!dir.exists(foldername)) dir.create(foldername)
+
 data(horseshoe2D)
 mesh=create.mesh.2D(nodes=horseshoe2D$boundary_nodes, 
                     segments = horseshoe2D$boundary_segments)
@@ -39,8 +43,9 @@ FEMObject3 = FEM(func3, FEMbasis)
 plot_smooth_2D(FEMObject)
 
 # esempio 
-foldername = "imgs/"
+foldername = paste0(foldername, "test_plot_smooth_2D/")
 if(!dir.exists(foldername)) dir.create(foldername)
+
 coeff_lims = smooth_lim(FEMObject, FEMObject2, FEMObject3)
 
 # named list ...
@@ -54,6 +59,7 @@ for(i in 1:length(smooth_list)){
   close3d()  
 }
 
-plot_colorbar(FEMObject, coeff_lims = coeff_lims)
+plot_colorbar(FEMObject, coeff_lims = coeff_lims, colorscale = viridis,
+              file = paste0(foldername, "colorbar"))
 
 

@@ -206,6 +206,3 @@ FEMObject2 = fdaPDE::FEM(-coeff, FEMbasis)
 FEMObject3 = fdaPDE::FEM(2*coeff, FEMbasis)
 
 smooth_lim(FEMObject, FEMObject2, FEMObject3)
-
-plot_colorbar(FEMObject)
-plot_colorbar(FEMObject2, colorscale = viridis, ncolor = 256)
