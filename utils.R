@@ -39,7 +39,7 @@ smooth_lim <- function(FEMObject, ...){
 
 # ---
 plot_colorbar <- function(FEMObject, coeff_lims= NULL, 
-                          colorscale = jet.col, ncolor = 128, 
+                          colorscale = NULL, ncolor = 128, 
                           cex.axis = 2, file = "colorbar"){
   coeff <- extract_coeff(FEMObject)
   if(is.null(coeff_lims)) coeff_lims = c(min(coeff, na.rm = T), max(coeff, na.rm = T))
@@ -79,5 +79,53 @@ plot_colorbar <- function(FEMObject, coeff_lims= NULL,
   dev.off()
 }
 
-
+# ---
+# n_obs  stringa -> nome della colonna, factor, di data che contiene numero osservazioni / numero nodi della mesh
+# method stringa -> nome della colonna, factor, di data che contiene i metodi
+plot_boxplot = function(data, n_obs, method,
+                        filename="boxplot.pdf"){
+  n_obs_ = as.numeric(levels(data[[n_obs]]))
+  methods_ = levels(data[[method]])
+  at_ <- c()
+  for(i in 1:length(n_obs_)){
+    at_ <-  c(at_, ((i-1)*(1+length(methods_)) + (1:length(methods_))))
+  }
+  
+  fill_col = viridis::viridis((length(levels(data[[method]]))+1), begin=0.25, end=0.95)
+  fill_col = fill_col[1:length(methods_)]
+  facs = names(Filter(is.factor, data))
+  which( ! names(data) %in% facs )
+  doplot = names(data)[which( ! names(data) %in% facs )]
+  
+  if(length(methods_)%%2 != 0){
+    at_label = seq(ceiling(length(methods)/2), at_[length(at_)], by=(length(methods_) + 1))
+  }else{
+    at_label = seq(length(methods_)/2, at_[length(at_)], by=(length(methods_) + 1))
+  }
+  
+  pdf(filename, family = "serif", width = 7, height = 7)
+  for(i in doplot){
+    boxplot(data[[i]] ~  data[[method]] + as.numeric(data[[n_obs]]),
+            ylab="", xlab="observations", at = at_, xaxt="n",
+            ylim=c(min(data[[i]]), max(data[[i]])*(1.1)),
+            col=fill_col,cex.lab = 2, cex.axis = 2, cex.main = 2,
+            main = i)
+    axis(side = 1, at = at_label, labels = n_obs_, cex.lab = 2, cex.axis = 2)
+    legend("topright",legend=methods_, fill=fill_col, horiz=T, cex=1.5, inset=0.0125, 
+           bty="n")
+    
+  }
+  
+  for(k in 1:length(methods_)){
+    for(i in doplot){
+      tmp <- data[which(data[[method]] == methods_[k]),]
+      boxplot(tmp[[i]] ~ tmp[[n_obs]],
+              ylab="", xlab="observations", xaxt="n",
+              col=fill_col[k],cex.lab = 2, cex.axis = 2, cex.main = 2,
+              main = paste0(i," (",methods_[k],")"))
+      axis(side = 1, at = 1:length(n_obs_), labels = n_obs_, cex.lab = 2, cex.axis = 2)
+    }
+  }
+  dev.off()
+}
 
