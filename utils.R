@@ -21,11 +21,11 @@ extract_coeff <- function(FEMObject){
 smooth_lim <- function(FEMObject, ...){
   coeff <- extract_coeff(FEMObject)
   lims = c(1e10, -1e10)
-  lims[1] = min(coeff, lims[1])
-  lims[2] = max(coeff, lims[2])
+  lims[1] = min(coeff, lims[1], na.rm = T)
+  lims[2] = max(coeff, lims[2], na.rm = T)
   
-  lims[1] = min(min(FEMObject$coeff), lims[1])
-  lims[2] = max(max(FEMObject$coeff), lims[2])
+  lims[1] = min(min(FEMObject$coeff), lims[1], na.rm = T)
+  lims[2] = max(max(FEMObject$coeff), lims[2], na.rm = T)
   
   #coeffs_args = list()
   args = list(...)
@@ -33,21 +33,21 @@ smooth_lim <- function(FEMObject, ...){
     for(i in 1:length(args)){
       if(! is(args[[i]], "FEM") ) stop("Provides ONLY FEM objects.")
         coeff = extract_coeff(args[[i]])
-      lims[1] = min(coeff, lims[1])
-      lims[2] = max(coeff, lims[2])
-      lims[1] = min(min(args[[i]]$coeff), lims[1])
-      lims[2] = max(max(args[[i]]$coeff), lims[2])
+      lims[1] = min(coeff, lims[1], na.rm = T)
+      lims[2] = max(coeff, lims[2], na.rm = T)
+      lims[1] = min(min(args[[i]]$coeff, na.rm = T), lims[1], na.rm = T)
+      lims[2] = max(max(args[[i]]$coeff, na.rm = T), lims[2], na.rm = T)
     }
   }
   return(lims)
 }
 
 # ---
-plot_colorbar <- function(FEMObject, coeff_lims= NULL, 
+plot_colorbar <- function(FEMObject, coeff_lims= smooth_lim(FEMObject), 
                           colorscale = jet.col, ncolor = 128, width=3, 
                           cex.axis = 2, file = "colorbar"){
   coeff <- extract_coeff(FEMObject)
-  if(is.null(coeff_lims)) coeff_lims = c(min(coeff, na.rm = T), max(coeff, na.rm = T))
+  #if(is.null(coeff_lims)) coeff_lims = c(min(coeff, na.rm = T), max(coeff, na.rm = T))
   cmin = coeff_lims[1]; cmax=coeff_lims[2]
   
   exps <- -15:15
