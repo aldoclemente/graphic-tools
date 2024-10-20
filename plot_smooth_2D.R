@@ -20,7 +20,7 @@ plot_smooth_2D <- function(FEM, coeff_lims=NULL,
       
     diffrange = diff(range(coeff_lims)) 
     col = coeff[triangles,]
-    col = (col - min(coeff[,], na.rm =T))/diffrange*(ncolor-1)+1
+    col = (col - min(coeff, na.rm =T))/diffrange*(ncolor-1)+1
     if(abs(diffrange) < 1e-10) col = rep(M, times=length(col)) # costanti
       
     #z <- FEM$coeff[triangles,]

@@ -24,6 +24,9 @@ smooth_lim <- function(FEMObject, ...){
   lims[1] = min(coeff, lims[1])
   lims[2] = max(coeff, lims[2])
   
+  lims[1] = min(min(FEMObject$coeff), lims[1])
+  lims[2] = max(max(FEMObject$coeff), lims[2])
+  
   #coeffs_args = list()
   args = list(...)
   if( length(args) > 0L){
@@ -32,6 +35,8 @@ smooth_lim <- function(FEMObject, ...){
         coeff = extract_coeff(args[[i]])
       lims[1] = min(coeff, lims[1])
       lims[2] = max(coeff, lims[2])
+      lims[1] = min(min(args[[i]]$coeff), lims[1])
+      lims[2] = max(max(args[[i]]$coeff), lims[2])
     }
   }
   return(lims)
