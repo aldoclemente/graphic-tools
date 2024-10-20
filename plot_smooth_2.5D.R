@@ -9,13 +9,9 @@ windowRect = c(70,  106, 1920, 1117)
 #pp <- par3d(no.readonly = TRUE)
 
 
-plot_smooth_2.5D <- function(FEM, coeff_lims=NULL, 
+plot_smooth_2.5D <- function(FEM, coeff_lims=smooth_lim(FEM), 
                           colorscale = jet.col, ncolor = 128, alpha = 1,
                           ...){
-  if (is.null(coeff_lims)){
-    coeff_lims = extract_coeff(FEM)
-  }
-  
   triangles = c(t(FEM$FEMbasis$mesh$triangles))
   ntriangles = nrow(FEM$FEMbasis$mesh$triangles)
   order = FEM$FEMbasis$mesh$order

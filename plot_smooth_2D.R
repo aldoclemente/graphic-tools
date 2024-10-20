@@ -2,13 +2,9 @@ source("utils.R")
 
 zoom = 0.7657689
 windowRect = c(70,  106, 1920, 1117)
-plot_smooth_2D <- function(FEM, coeff_lims=NULL, 
+plot_smooth_2D <- function(FEM, coeff_lims=smooth_lim(FEM), 
                            colorscale = jet.col, ncolor = 128, alpha = 1,
                            ...){
-    if (is.null(coeff_lims)){
-      coeff_lims = extract_coeff(FEM)
-    }
-  
     nodes <- FEM$FEMbasis$mesh$nodes
     triangles <- as.vector(t(FEM$FEMbasis$mesh$triangles))
     coeff = FEM$coeff 
