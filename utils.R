@@ -24,8 +24,8 @@ smooth_lim <- function(FEMObject, ...){
   lims[1] = min(coeff, lims[1], na.rm = T)
   lims[2] = max(coeff, lims[2], na.rm = T)
   
-  lims[1] = min(min(FEMObject$coeff), lims[1], na.rm = T)
-  lims[2] = max(max(FEMObject$coeff), lims[2], na.rm = T)
+  lims[1] = min(min(FEMObject$coeff, na.rm = T), lims[1], na.rm = T)
+  lims[2] = max(max(FEMObject$coeff, na.rm = T), lims[2], na.rm = T)
   
   #coeffs_args = list()
   args = list(...)
