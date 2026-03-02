@@ -1,6 +1,6 @@
 if(!require(pacman)) install.packages("pacman")
 pacman::p_load("fdaPDE" ,"plotrix", "latex2exp", "RColorBrewer", "viridis",
-               "dplyr")
+               "dplyr", "ggplot2")
 
 extract_coeff <- function(FEMObject){
   elements = NULL
